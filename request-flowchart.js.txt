@@ -1,0 +1,16 @@
+// http://flowchart.js.org/
+st=>start: Request arrives
+create-zoom-plan=>operation: Create ZOOM Plan
+get-resources=>inputoutput: GET resources
+etag=>condition: eTag?
+head-resources=>inputoutput: HEAD resources
+compute-etag=>subroutine: Compute eTag
+same-etag=>condition: same?
+return-not-modified=>end: 304
+return-resources=>end: { zoomed-resources }
+
+st->create-zoom-plan->etag
+etag(yes)->head-resources->compute-etag->same-etag
+etag(no)->get-resources(right)->return-resources
+same-etag(yes)->return-not-modified
+same-etag(no)->get-resources
